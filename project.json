@@ -1,0 +1,8 @@
+{
+  "slug": "structured-output-validator",
+  "title": "Strict structured-output validator",
+  "description": "Validates a small documented JSON Schema-inspired subset: type, properties, required, additionalProperties, items, enum, string length, number bounds, and array length. Unsupported schema keywords fail explicitly. JSON parsing rejects NaN/Infinity and duplicate keys. Booleans are not accepted as numbers. This is not a complete JSON Schema implementation and cannot verify the factual truth of valid-shaped outputs.",
+  "category": "agents",
+  "demo_args": [],
+  "expected_exit": 0
+}
