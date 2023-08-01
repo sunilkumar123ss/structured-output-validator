@@ -1,0 +1,7 @@
+{
+  "answer": "The synthetic logs are stored in the internal operations bucket.",
+  "sources": [
+    "ops"
+  ],
+  "confidence": 0.75
+}
