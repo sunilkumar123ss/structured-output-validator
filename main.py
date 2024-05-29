@@ -22,3 +22,30 @@ def loads_strict(text):
         return result
     return json.loads(text,parse_constant=reject_constant,object_pairs_hook=pairs)
 
+
+def check_schema(schema,depth=0):
+    if depth > 16 or not isinstance(schema,dict):raise ValueError("schema must be an object with depth <= 16")
+    if set(schema)-KEYS:raise ValueError(f"unsupported schema keywords: {sorted(set(schema)-KEYS)}")
+    kind=schema.get("type")
+    if not isinstance(kind, str) or kind not in TYPES:raise ValueError("schema requires one supported string type")
+    permitted={"type","enum"}
+    permitted |= {"object":{"properties","required","additionalProperties"},"array":{"items","minItems","maxItems"},
+                  "string":{"minLength","maxLength"},"number":{"minimum","maximum"},"integer":{"minimum","maximum"}}.get(kind,set())
+    if set(schema)-permitted:raise ValueError("schema contains constraints inapplicable to its type")
+    if "enum" in schema and (not isinstance(schema["enum"],list) or not schema["enum"]):raise ValueError("enum must be a nonempty list")
+    if kind == "object":
+        props=schema.get("properties",{});required=schema.get("required",[])
+        if not isinstance(props,dict) or not all(isinstance(k,str) for k in props):raise ValueError("properties must be an object")
+        if not isinstance(required,list) or any(not isinstance(x,str) for x in required) or len(set(required)) != len(required) or set(required)-set(props):raise ValueError("required must name unique declared properties")
+        if not isinstance(schema.get("additionalProperties",True),bool):raise ValueError("additionalProperties must be boolean")
+        for child in props.values():check_schema(child,depth+1)
+    if kind == "array":
+        if "items" not in schema:raise ValueError("array schemas require items")
+        check_schema(schema["items"],depth+1)
+    for key in ("minLength","maxLength","minItems","maxItems"):
+        if key in schema and (type(schema[key]) is not int or schema[key] < 0):raise ValueError(f"{key} must be a nonnegative integer")
+    for key in ("minimum","maximum"):
+        if key in schema and not finite_number(schema[key]):raise ValueError(f"{key} must be finite")
+    for lower,upper in (("minLength","maxLength"),("minItems","maxItems"),("minimum","maximum")):
+        if lower in schema and upper in schema and schema[lower] > schema[upper]:raise ValueError(f"{lower} exceeds {upper}")
+
