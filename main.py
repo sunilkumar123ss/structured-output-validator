@@ -49,3 +49,36 @@ def check_schema(schema,depth=0):
     for lower,upper in (("minLength","maxLength"),("minItems","maxItems"),("minimum","maximum")):
         if lower in schema and upper in schema and schema[lower] > schema[upper]:raise ValueError(f"{lower} exceeds {upper}")
 
+
+def validate(value,schema):
+    check_schema(schema)
+    errors=[]
+    def visit(data,spec,path,depth=0):
+        if depth > 64:
+            errors.append(f"{path}: nesting limit exceeded");return
+        kind=spec["type"]
+        matches={"object":isinstance(data,dict),"array":isinstance(data,list),"string":isinstance(data,str),
+                 "number":finite_number(data),"integer":type(data) is int,
+                 "boolean":type(data) is bool,"null":data is None}[kind]
+        if not matches:errors.append(f"{path}: expected {kind}");return
+        if "enum" in spec and not any(type(data) is type(option) and data == option for option in spec["enum"]):
+            errors.append(f"{path}: value is not in enum")
+        if kind == "object":
+            props=spec.get("properties",{})
+            for key in spec.get("required",[]):
+                if key not in data:errors.append(f"{path}.{key}: required field missing")
+            for key,child in data.items():
+                if key in props:visit(child,props[key],f"{path}.{key}",depth+1)
+                elif not spec.get("additionalProperties",True):errors.append(f"{path}.{key}: unexpected field")
+        elif kind == "array":
+            for index,child in enumerate(data):visit(child,spec["items"],f"{path}[{index}]",depth+1)
+        if kind in {"array","string"}:
+            minimum,maximum=("minItems","maxItems") if kind == "array" else ("minLength","maxLength")
+            if minimum in spec and len(data) < spec[minimum]:errors.append(f"{path}: below {minimum}")
+            if maximum in spec and len(data) > spec[maximum]:errors.append(f"{path}: exceeds {maximum}")
+        elif kind in {"number","integer"}:
+            if "minimum" in spec and data < spec["minimum"]:errors.append(f"{path}: below minimum")
+            if "maximum" in spec and data > spec["maximum"]:errors.append(f"{path}: exceeds maximum")
+    visit(value,schema,"$")
+    return errors
+
