@@ -4,7 +4,7 @@ This reference implementation and all of the following milestone commits were pr
 
 **Every recorded author and committer date in this timeline is synthetic. These dates are not evidence that the code was written, tested, deployed, or used professionally in the past.**
 
-This snapshot is milestone 6 of 16. It is an incomplete tutorial stage; source, fixtures, tests, the CLI, and automation are introduced progressively.
+This snapshot is milestone 7 of 16. It is an incomplete tutorial stage; source, fixtures, tests, the CLI, and automation are introduced progressively.
 
 The progression decomposes already-completed October 2026 code into meaningful additions. It is not recovered original development history. Publication time is separate from the synthetic Git timestamps.
 
@@ -18,7 +18,7 @@ The progression decomposes already-completed October 2026 code into meaningful a
 | 4 | 2024-04-17T19:30:24+05:30 | Implement loads strict (present) |
 | 5 | 2024-05-29T14:53:20+05:30 | Implement check schema (present) |
 | 6 | 2024-07-03T09:15:47+05:30 | Implement validate (present) |
-| 7 | 2024-07-18T14:33:01+05:30 | Expose the command-line demonstration and input handling (later stage) |
+| 7 | 2024-07-18T14:33:01+05:30 | Expose the command-line demonstration and input handling (present) |
 | 8 | 2024-09-01T13:01:26+05:30 | Test nested success and bad item path (later stage) |
 | 9 | 2024-11-08T16:57:28+05:30 | Test bool is not numeric and bounds enforced (later stage) |
 | 10 | 2025-02-13T12:09:37+05:30 | Test required and extra (later stage) |

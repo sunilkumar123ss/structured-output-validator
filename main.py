@@ -82,3 +82,15 @@ def validate(value,schema):
     visit(value,schema,"$")
     return errors
 
+
+def main():
+    parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--schema",type=Path,default=Path(__file__).with_name("schema.json"))
+    parser.add_argument("--output",type=Path,default=Path(__file__).with_name("output.json"))
+    args=parser.parse_args()
+    try:errors=validate(loads_strict(args.output.read_text()),loads_strict(args.schema.read_text()))
+    except (ValueError,OSError,TypeError) as exc:parser.error(str(exc))
+    print(json.dumps({"valid":not errors,"errors":errors},indent=2))
+    if errors:raise SystemExit(1)
+
+if __name__ == "__main__":main()
