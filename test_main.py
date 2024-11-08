@@ -16,4 +16,8 @@ class SchemaTests(unittest.TestCase):
         schema={"type":"array","items":{"type":"integer","minimum":0}}
         self.assertEqual(validate([0,1,2],schema),[])
         self.assertIn("$[1]",validate([0,-1],schema)[0])
+    def test_bool_is_not_numeric_and_bounds_enforced(self):
+        self.assertTrue(validate(True,{"type":"number"}))
+        self.assertTrue(validate(2,{"type":"number","maximum":1}))
+        self.assertTrue(validate(float("nan"),{"type":"number"}))
 
