@@ -20,4 +20,7 @@ class SchemaTests(unittest.TestCase):
         self.assertTrue(validate(True,{"type":"number"}))
         self.assertTrue(validate(2,{"type":"number","maximum":1}))
         self.assertTrue(validate(float("nan"),{"type":"number"}))
+    def test_required_and_extra(self):
+        schema={"type":"object","properties":{"answer":{"type":"string"}},"required":["answer"],"additionalProperties":False}
+        self.assertEqual(len(validate({"extra":1},schema)),2)
 
