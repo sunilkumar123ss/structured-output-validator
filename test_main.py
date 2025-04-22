@@ -23,4 +23,7 @@ class SchemaTests(unittest.TestCase):
     def test_required_and_extra(self):
         schema={"type":"object","properties":{"answer":{"type":"string"}},"required":["answer"],"additionalProperties":False}
         self.assertEqual(len(validate({"extra":1},schema)),2)
+    def test_unknown_schema_keyword_rejected(self):
+        with self.assertRaises(ValueError):validate("x",{"type":"string","pattern":"x"})
+        with self.assertRaises(ValueError):validate("x",{"type":"string","minLength":5,"maxLength":1})
 
