@@ -26,4 +26,8 @@ class SchemaTests(unittest.TestCase):
     def test_unknown_schema_keyword_rejected(self):
         with self.assertRaises(ValueError):validate("x",{"type":"string","pattern":"x"})
         with self.assertRaises(ValueError):validate("x",{"type":"string","minLength":5,"maxLength":1})
+    def test_large_integer_and_bad_schema_type_are_handled(self):
+        self.assertEqual(validate(10 ** 400, {"type":"number"}), [])
+        self.assertTrue(validate(10 ** 400, {"type":"number", "maximum":10}))
+        with self.assertRaises(ValueError): validate("x", {"type":[]})
 
