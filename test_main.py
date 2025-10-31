@@ -30,4 +30,8 @@ class SchemaTests(unittest.TestCase):
         self.assertEqual(validate(10 ** 400, {"type":"number"}), [])
         self.assertTrue(validate(10 ** 400, {"type":"number", "maximum":10}))
         with self.assertRaises(ValueError): validate("x", {"type":[]})
+    def test_strict_json_rejects_duplicates_and_nonfinite(self):
+        for text in ['{"x":1,"x":2}','{"x":NaN}','Infinity']:
+            with self.assertRaises(ValueError):loads_strict(text)
 
+if __name__ == "__main__":unittest.main()

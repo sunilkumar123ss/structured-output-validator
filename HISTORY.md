@@ -4,7 +4,7 @@ This reference implementation and all of the following milestone commits were pr
 
 **Every recorded author and committer date in this timeline is synthetic. These dates are not evidence that the code was written, tested, deployed, or used professionally in the past.**
 
-This snapshot is milestone 12 of 16. It is an incomplete tutorial stage; source, fixtures, tests, the CLI, and automation are introduced progressively.
+This snapshot is milestone 13 of 16. It is an incomplete tutorial stage; source, fixtures, tests, the CLI, and automation are introduced progressively.
 
 The progression decomposes already-completed October 2026 code into meaningful additions. It is not recovered original development history. Publication time is separate from the synthetic Git timestamps.
 
@@ -24,7 +24,7 @@ The progression decomposes already-completed October 2026 code into meaningful a
 | 10 | 2025-02-13T12:09:37+05:30 | Test required and extra (present) |
 | 11 | 2025-04-22T13:45:14+05:30 | Test unknown schema keyword rejected (present) |
 | 12 | 2025-06-12T09:36:01+05:30 | Test large integer and bad schema type are handled (present) |
-| 13 | 2025-10-31T10:39:01+05:30 | Test strict json rejects duplicates and nonfinite (later stage) |
+| 13 | 2025-10-31T10:39:01+05:30 | Test strict json rejects duplicates and nonfinite (present) |
 | 14 | 2025-12-10T16:38:21+05:30 | Add one-command test, demonstration and CLI verification (later stage) |
 | 15 | 2026-03-05T16:00:14+05:30 | Run verification on the supported Python CI matrix (later stage) |
 | 16 | 2026-08-26T16:40:02+05:30 | Document usage, limitations and the disclosed reconstructed timeline (later stage) |
